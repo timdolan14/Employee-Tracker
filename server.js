@@ -61,7 +61,6 @@ const questions = () => {
 function viewAllDepartments() {
     app.get('/api/allDepartments', (req, res) => {
         const sql = `SELECT * from departments`;
-
         db.query(sql, (err, rows) => {
             if (err) {
                 res.status(500).json({ error: err.message });
@@ -78,7 +77,6 @@ function viewAllDepartments() {
 function viewAllRoles() {
     app.get('/api/allRoles', (req, res) => {
         const sql = `SELECT * from roles`;
-
         db.query(sql, (err, rows) => {
             if (err) {
                 res.status(500).json({ error: err.message });
@@ -95,7 +93,6 @@ function viewAllRoles() {
 function viewAllEmployees() {
     app.get('/api/allEmployees', (req, res) => {
         const sql = `SELECT * from roles`;
-
         db.query(sql, (err, rows) => {
             if (err) {
                 res.status(500).json({ error: err.message });
@@ -104,7 +101,130 @@ function viewAllEmployees() {
             res.json({
                 message: 'success',
                 data: rows
-            });
+            })
+        })
+    });
+};
+function addDepartment() {
+    inquirer.prompt({
+        name: "newDepartment",
+        type: 'input',
+        message: "Add New Department?"
+    }).then
+    app.put('/api/allDepartment/:new', (req, res) => {
+        const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+        const params = [req.body.newDepartment];
+
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                res.status(400).json({ error: err.message });
+            } else if (!result.affectedRows) {
+                res.json({
+                    message: 'Error'
+                });
+            } else {
+                res.json({
+                    message: 'Department added to Database',
+                    data: req.body,
+                    changes: result.affectedRows
+                });
+            }
+        })
+    })
+};
+
+function addRole() {
+    inquirer.prompt([
+        {
+            name: "role",
+            type: 'input',
+            message: "Role?"
+        },
+        {
+            name: "firstName",
+            type: 'input',
+            message: "First Name?"
+        },
+        {
+            name: "lastName",
+            type: 'input',
+            message: "Last Name?"
+        },
+        {
+            name: "salary",
+            type: 'input',
+            message: "Salary?"
+        },
+        {
+            name: "department",
+            type: 'input',
+            message: "Department?"
+        },
+    ]).then app.put('/api/allRoles/:new', (req, res) => {
+        const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+        const params = [req.body.role, req.body.firstName, req.params.lastName,
+        req.body.salary, req.body.department];
+
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                res.status(400).json({ error: err.message });
+            } else if (!result.affectedRows) {
+                res.json({
+                    message: 'Error'
+                });
+            } else {
+                res.json({
+                    message: 'Role added to Database',
+                    data: req.body,
+                    changes: result.affectedRows
+                });
+            }
+        })
+    })
+};
+
+function addEmployee() {
+    inquirer.prompt([
+        {
+            name: "firstName",
+            type: 'input',
+            message: "First Name?"
+        },
+        {
+            name: "lastName",
+            type: 'input',
+            message: "Last Name?"
+        },
+        {
+            name: "role",
+            type: 'input',
+            message: "Role?"
+        },
+        {
+            name: "manager",
+            type: 'input',
+            message: "Manager?"
+        },
+    ]).then app.put('/api/allEmployees/:new', (req, res) => {
+        const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+        const params = [req.body.firstame, req.params.lastName,
+        req.body.role, req.body.manager];
+
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                res.status(400).json({ error: err.message });
+            } else if (!result.affectedRows) {
+                res.json({
+                    message: 'Error'
+                });
+            } else {
+                res.json({
+                    message: 'Employee added to Database',
+                    data: [req.body.firstname, req.params.lastname,
+                    req.body.role, req.body.manager],
+                    changes: result.affectedRows
+                });
+            }
         });
     });
-}
+};
