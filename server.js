@@ -60,7 +60,6 @@ questions();
 
 
 function viewAllDepartments() {
-
     const sql = `SELECT * from departments`;
     db.query(sql, (err, rows) => {
         if (err) {
@@ -76,7 +75,6 @@ function viewAllDepartments() {
 }
 
 function viewAllRoles() {
-
     const sql = `SELECT * from roles`;
     db.query(sql, (err, rows) => {
         if (err) {
@@ -92,7 +90,6 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
-
     const sql = `SELECT * from employees`;
     db.query(sql, (err, rows) => {
         if (err) {
@@ -143,16 +140,6 @@ function addRole() {
             message: "Role?"
         },
         {
-            name: "firstName",
-            type: 'input',
-            message: "First Name?"
-        },
-        {
-            name: "lastName",
-            type: 'input',
-            message: "Last Name?"
-        },
-        {
             name: "salary",
             type: 'input',
             message: "Salary?"
@@ -163,9 +150,8 @@ function addRole() {
             message: "Department?"
         },
     ]).then
-
     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-    const params = [req.body.role, req.body.firstName, req.params.lastName,
+    const params = [req.body.role,
     req.body.salary, req.body.department];
 
     db.query(sql, params, (err, result) => {
@@ -209,7 +195,6 @@ function addEmployee() {
             message: "Manager?"
         },
     ]).then
-
     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
     const params = [req.body.firstame, req.params.lastName,
     req.body.role, req.body.manager];
