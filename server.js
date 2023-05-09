@@ -9,17 +9,17 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'employee_db'
-    },
-    console.log(`Connected to the employee_db database.`)
-);
+// const db = mysql.createConnection(
+//     {
+//         host: 'localhost',
+//         user: 'root',
+//         password: '',
+//         database: 'employee_db'
+//     },
+//     console.log(`Connected to the employee_db database.`)
+// );
 
-const questions = () => {
+function questions () {
     inquirer.prompt({
         name: "Where would you like to go?",
         type: 'list',
@@ -31,7 +31,7 @@ const questions = () => {
             'Add an employee',
             'Update an employee role',
         ]
-    }).then((choices) => {
+    }).then((options) => {
         if (choices === 'View all departments') {
             viewAllDepartments();
         }
@@ -59,75 +59,76 @@ const questions = () => {
 questions();
 
 
-function viewAllDepartments() {
-    const sql = `SELECT * from departments`;
-    db.query(sql, (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        });
-    });
-    questions();
-}
 
-function viewAllRoles() {
-    const sql = `SELECT * from roles`;
-    db.query(sql, (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        });
-    });
-    questions();
-}
+// function viewAllDepartments() {
+//     const sql = `SELECT * from departments`;
+//     db.query(sql, (err, rows) => {
+//         if (err) {
+//             res.status(500).json({ error: err.message });
+//             return;
+//         }
+//         res.json({
+//             message: 'success',
+//             data: rows
+//         });
+//     });
+//     questions();
+// }
 
-function viewAllEmployees() {
-    const sql = `SELECT * from employees`;
-    db.query(sql, (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        })
-    })
-    questions();
-};
+// function viewAllRoles() {
+//     const sql = `SELECT * from roles`;
+//     db.query(sql, (err, rows) => {
+//         if (err) {
+//             res.status(500).json({ error: err.message });
+//             return;
+//         }
+//         res.json({
+//             message: 'success',
+//             data: rows
+//         });
+//     });
+//     questions();
+// }
+
+// function viewAllEmployees() {
+//     const sql = `SELECT * from employees`;
+//     db.query(sql, (err, rows) => {
+//         if (err) {
+//             res.status(500).json({ error: err.message });
+//             return;
+//         }
+//         res.json({
+//             message: 'success',
+//             data: rows
+//         })
+//     })
+//     questions();
+// };
 
 function addDepartment() {
     inquirer.prompt({
         name: "newDepartment",
         type: 'input',
         message: "Add New Department?"
-    }).then
+    // }).then
 
-    const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-    const params = [req.body.newDepartment];
+    // const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+    // const params = [req.body.newDepartment];
 
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            res.status(400).json({ error: err.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
-        } else {
-            res.json({
-                message: 'Department added to Database',
-                data: req.body,
-                changes: result.affectedRows
-            });
-        }
+    // db.query(sql, params, (err, result) => {
+    //     if (err) {
+    //         res.status(400).json({ error: err.message });
+    //     } else if (!result.affectedRows) {
+    //         res.json({
+    //             message: 'Error'
+    //         });
+    //     } else {
+    //         res.json({
+    //             message: 'Department added to Database',
+    //             data: req.body,
+    //             changes: result.affectedRows
+    //         });
+    //     }
     })
     questions();
 };
@@ -149,26 +150,27 @@ function addRole() {
             type: 'input',
             message: "Department?"
         },
-    ]).then
-    const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-    const params = [req.body.role,
-    req.body.salary, req.body.department];
+    ])
+    //.then
+    // const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+    // const params = [req.body.role,
+    // req.body.salary, req.body.department];
 
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            res.status(400).json({ error: err.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
-        } else {
-            res.json({
-                message: 'Role added to Database',
-                data: req.body,
-                changes: result.affectedRows
-            });
-        }
-    })
+    // db.query(sql, params, (err, result) => {
+    //     if (err) {
+    //         res.status(400).json({ error: err.message });
+    //     } else if (!result.affectedRows) {
+    //         res.json({
+    //             message: 'Error'
+    //         });
+    //     } else {
+    //         res.json({
+    //             message: 'Role added to Database',
+    //             data: req.body,
+    //             changes: result.affectedRows
+    //         });
+    //     }
+    // })
     questions();
 };
 
@@ -194,26 +196,63 @@ function addEmployee() {
             type: 'input',
             message: "Manager?"
         },
-    ]).then
-    const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-    const params = [req.body.firstame, req.params.lastName,
-    req.body.role, req.body.manager];
+     ])
+    //.then
+    // const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+    // const params = [req.body.firstame, req.params.lastName,
+    // req.body.role, req.body.manager];
 
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            res.status(400).json({ error: err.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
-        } else {
-            res.json({
-                message: 'Employee added to Database',
-                data: [req.body.firstname, req.params.lastname,
-                req.body.role, req.body.manager],
-                changes: result.affectedRows
-            });
-        }
-    });
+    // db.query(sql, params, (err, result) => {
+    //     if (err) {
+    //         res.status(400).json({ error: err.message });
+    //     } else if (!result.affectedRows) {
+    //         res.json({
+    //             message: 'Error'
+    //         });
+    //     } else {
+    //         res.json({
+    //             message: 'Employee added to Database',
+    //             data: [req.body.firstname, req.params.lastname,
+    //             req.body.role, req.body.manager],
+    //             changes: result.affectedRows
+    //         });
+    //     }
+    // });
+    questions();
+};
+
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            name: "name",
+            type: 'input',
+            message: "Name of Employee?"
+        },
+        {
+            name: "updatedRole",
+            type: 'input',
+            message: "What would you like to update this to?"
+        },
+     ])
+    //.then
+    // const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+    // const params = [req.body.firstame, req.params.lastName,
+    // req.body.role, req.body.manager];
+
+    // db.query(sql, params, (err, result) => {
+    //     if (err) {
+    //         res.status(400).json({ error: err.message });
+    //     } else if (!result.affectedRows) {
+    //         res.json({
+    //             message: 'Error'
+    //         });
+    //     } else {
+    //         res.json({
+    //             message: 'Employee added to Database',
+    //             data: [req.body.name, req.params.updatedRole]
+    //             changes: result.affectedRows
+    //         });
+    //     }
+    // });
     questions();
 };
