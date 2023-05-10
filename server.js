@@ -66,7 +66,7 @@ questions();
 
 function viewAllDepartments() {
     console.log("test")
-    const sql = "SELECT department.id, department.name FROM departments";
+    const sql = "SELECT departments.id, departments.name FROM departments";
     db.query(sql, function (err, rows) {
         if (err) {
             return;
@@ -197,7 +197,7 @@ function addEmployee() {
             message: "Manager?"
         },
     ]) .then((data) => {
-        const sql = `INSERT INTO roles (first_name, last_name, role, manager) VALUES ?`;
+        const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ?`;
         const params = [data.firstname, data.lastname,
             data.role_id, data.manager_id]
     
@@ -218,33 +218,33 @@ function addEmployee() {
     questions();
 };
 
-// function updateEmployeeRole() {
-//     inquirer.prompt([
-//         {
-//             name: "name",
-//             type: 'input',
-//             message: "Name of Employee?"
-//         },
-//         {
-//             name: "updatedRole",
-//             type: 'input',
-//             message: "What would you like to update this to?"
-//         },
-//      ])
-//     .then
-//     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-//     const params = [data.name, data.updatedRole]
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            name: "name",
+            type: 'input',
+            message: "Name of Employee?"
+        },
+        {
+            name: "updatedRole",
+            type: 'input',
+            message: "What would you like to update this to?"
+        },
+     ])
+    .then
+    const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+    const params = [data.name, data.updatedRole]
 
-//     db.query(sql, params, (err, result) => {
-//         if (err) {
-//             return;
-//         } else {
-//             console.log({
-//                 message: 'Employee added to Database',
-//                 data: [data.name, data.updatedRole],
-//                 changes: result.affectedRows
-//             });
-//         }
-//     });
-//     questions();
-// };
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            return;
+        } else {
+            console.log({
+                message: 'Employee added to Database',
+                data: [data.name, data.updatedRole],
+                changes: result.affectedRows
+            });
+        }
+    });
+    questions();
+};
