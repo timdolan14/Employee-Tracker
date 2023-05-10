@@ -35,27 +35,31 @@ function questions() {
         console.log(res)
         let choices = Object.values(res)
         console.log(choices)
-        if (choices[0] === 'View all departments') {
-            viewAllDepartments();
+        switch (choices) {
+            case 'View all departments':
+                viewAllDepartments();;
+                break;
+            case 'View all roles':
+                viewAllRoles();;
+                break;
+            case 'View all employees':
+                viewAllEmployees();;
+                break;
+            case 'Add a department':
+                addDepartment();
+                break;
+            case 'Add a role':
+                addRole();
+                break;
+            case 'Add a employee':
+                addEmployee();
+                break;
+            case 'Update a employee role':
+                updateEmployeeRole();
+                break;
+            default:
+                break;
         }
-        if (choices[0] === 'View all roles') {
-            viewAllRoles();
-        }
-        if (choices[0] === 'View all employees') {
-            viewAllEmployees();
-        }
-        if (choices[0] === 'Add a department') {
-            addDepartment();
-        }
-        if (choices[0] === 'Add a role') {
-            addRole();
-        }
-        if (choices[0] === 'Add an employee') {
-            addEmployee();
-        }
-        // if (choices === 'Update an employee role') {
-        //     updateEmployeeRole();
-        // }
     })
 };
 
@@ -89,7 +93,7 @@ function viewAllRoles() {
             message: 'success',
             data: rows
         })
-        console.log(data)
+        console.log(sql)
     })
     questions();
 }
