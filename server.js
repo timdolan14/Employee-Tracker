@@ -21,7 +21,7 @@ const db = mysql.createConnection(
 
 function questions() {
     inquirer.prompt({
-        name: "Where would you like to go?",
+        name: "Choose",
         type: 'list',
         choices: ['View all departments',
             'View all roles',
@@ -51,10 +51,10 @@ function questions() {
             case 'Add a role':
                 addRole();
                 break;
-            case 'Add a employee':
+            case 'Add an employee':
                 addEmployee();
                 break;
-            case 'Update a employee role':
+            case 'Update an employee role':
                 updateEmployeeRole();
                 break;
         }
@@ -64,18 +64,17 @@ function questions() {
 questions();
 
 
-function viewAllDepartments(res) {
+function viewAllDepartments() {
     console.log("test")
     const sql = "SELECT department.id, department.name FROM department;";
     db.query(sql, function (err, rows) {
         if (err) {
             return;
         }
-        res.json({
+        console.log({
             message: 'success',
             data: rows
         })
-        console.log(data)
     })
     questions();
 }
@@ -87,27 +86,25 @@ function viewAllRoles(res) {
         if (err) {
             return;
         }
-        res.json({
+        console.log({
             message: 'success',
             data: rows
         });
-        console.log(data)
     });
     questions();
 }
 
-function viewAllEmployees(res) {
+function viewAllEmployees() {
     console.log("test")
     const sql = "SELECT * FROM employees;";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
         }
-        res.json({
+        console.log({
             message: 'success',
             data: rows
         })
-        console.log(data)
     })
     questions();
 }
@@ -124,13 +121,11 @@ function addDepartment() {
             if (err) {
                 return;
             } else if (!result.affectedRows) {
-                res.json({
-                    message: 'Error'
-                });
+                console.log(error);
             } else {
-                res.json({
+                console.log({
                     message: 'Department added to Database',
-                    data: req.body.name,
+                    data: data.name,
                     changes: result.affectedRows
                 });
             }
@@ -161,12 +156,11 @@ function addRole() {
         const sql = `INSERT INTO roles (title, salary, department_id) VALUES ?`;
         const params = [data.title,
             data.salary, data.department_id]
-        console.log(data);
         db.query(sql, params, (err, result) => {
             if (err) {
                 return;
             } else {
-                res.json({
+                console.log({
                     message: 'Role added to Database',
                     data:[data.title,
                         data.salary, data.department_id]
@@ -204,17 +198,17 @@ function addEmployee() {
         },
     ]) .then((data) => {
         const sql = `INSERT INTO roles (first_name, last_name, role, manager) VALUES ?`;
-        const params = [data.firstame, data.lastName,
-        data.role, data.manager];
+        const params = [data.firstname, data.lastname,
+            data.role_id, data.manager_id]
     
         db.query(sql, params, (err, result) => {
             if (err) {
                 return;
             } else {
-                res.json({
+                console.log({
                     message: 'Employee added to Database',
-                    data: [req.body.firstname, req.params.lastname,
-                    req.body.role, req.body.manager],
+                    data: [data.firstname, data.lastname,
+                data.role_id, data.manager_id],
                     changes: result.affectedRows
                 });
             }
@@ -239,15 +233,15 @@ function addEmployee() {
 //      ])
 //     .then
 //     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-//     const params = [req.body.name, req.params.updatedRole]
+//     const params = [data.name, data.updatedRole]
 
 //     db.query(sql, params, (err, result) => {
 //         if (err) {
 //             return;
 //         } else {
-//             res.json({
+//             console.log({
 //                 message: 'Employee added to Database',
-//                 data: [req.body.name, req.params.updatedRole],
+//                 data: [data.name, data.updatedRole],
 //                 changes: result.affectedRows
 //             });
 //         }
