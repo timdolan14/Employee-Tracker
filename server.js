@@ -35,7 +35,7 @@ function questions() {
         console.log(res)
         let choices = Object.values(res)
         console.log(choices)
-        switch (choices) {
+        switch (choices[0]) {
             case 'View all departments':
                 viewAllDepartments();;
                 break;
@@ -64,25 +64,10 @@ function questions() {
 questions();
 
 
-function viewAllDepartments() {
+function viewAllDepartments(res) {
     console.log("test")
     const sql = "SELECT department.id, department.name FROM department;";
-    db.query(sql, (err, rows) => {
-        if (err) {
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        })
-        console.log(sql)
-    })
-}
-
-function viewAllRoles() {
-    console.log("test")
-    const sql = "SELECT title, salary, department_id FROM roles";
-    db.query(sql, (err, rows) => {
+    db.query(sql, function (err, rows) {
         if (err) {
             return;
         }
@@ -95,7 +80,23 @@ function viewAllRoles() {
     questions();
 }
 
-function viewAllEmployees() {
+function viewAllRoles(res) {
+    console.log("test")
+    const sql = "SELECT title, salary, department_id FROM roles";
+    db.query(sql, (err, rows) => {
+        if (err) {
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+        console.log(data)
+    });
+    questions();
+}
+
+function viewAllEmployees(res) {
     console.log("test")
     const sql = "SELECT * FROM employees;";
     db.query(sql, (err, rows) => {
@@ -116,26 +117,25 @@ function addDepartment() {
         name: "name",
         type: 'input',
         message: "Add New Department?"
-    }).then
-
-    const sql = `INSERT INTO departments (name) VALUES ?`;
-    const params = [req.body.name];
-
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            return;
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
-        } else {
-            res.json({
-                message: 'Department added to Database',
-                data: req.body.name,
-                changes: result.affectedRows
-            });
-        }
-    })
+    }).then ((data) => {
+        const sql = `INSERT INTO departments (name) VALUES ?`;
+        const params = [data.name];
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                return;
+            } else if (!result.affectedRows) {
+                res.json({
+                    message: 'Error'
+                });
+            } else {
+                res.json({
+                    message: 'Department added to Database',
+                    data: req.body.name,
+                    changes: result.affectedRows
+                });
+            }
+        })
+    });
     questions();
 };
 
@@ -157,26 +157,26 @@ function addRole() {
             choices: ['Engineering', 'Marketing', 'Consulting', 'Finance', 'Science'],
             message: "Department?"
         },
-    ])
-        .then
-    const sql = `INSERT INTO roles (title, salary, department_id) VALUES ?`;
-    const params = [req.body.title,
-    req.body.salary, req.body.department_id];
-
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            return;
-        } else {
-            res.json({
-                message: 'Role added to Database',
-                data: [req.body.title,
-                req.body.salary, req.body.department_id],
-                changes: result.affectedRows
-            });
-        }
+    ]).then((data) => {
+        const sql = `INSERT INTO roles (title, salary, department_id) VALUES ?`;
+        const params = [data.title,
+            data.salary, data.department_id]
+        console.log(data);
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                return;
+            } else {
+                res.json({
+                    message: 'Role added to Database',
+                    data:[data.title,
+                        data.salary, data.department_id]
+                });
+            }
+        })
     })
     questions();
 };
+
 
 function addEmployee() {
     inquirer.prompt([
@@ -202,24 +202,25 @@ function addEmployee() {
             type: 'input',
             message: "Manager?"
         },
-    ])
-        .then
-    const sql = `INSERT INTO roles (first_name, last_name, role, manager) VALUES ?`;
-    const params = [req.body.firstame, req.params.lastName,
-    req.body.role, req.body.manager];
-
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            return;
-        } else {
-            res.json({
-                message: 'Employee added to Database',
-                data: [req.body.firstname, req.params.lastname,
-                req.body.role, req.body.manager],
-                changes: result.affectedRows
-            });
-        }
+    ]) .then((data) => {
+        const sql = `INSERT INTO roles (first_name, last_name, role, manager) VALUES ?`;
+        const params = [data.firstame, data.lastName,
+        data.role, data.manager];
+    
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                return;
+            } else {
+                res.json({
+                    message: 'Employee added to Database',
+                    data: [req.body.firstname, req.params.lastname,
+                    req.body.role, req.body.manager],
+                    changes: result.affectedRows
+                });
+            }
+        });
     });
+
     questions();
 };
 
