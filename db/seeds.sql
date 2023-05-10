@@ -1,4 +1,4 @@
-INSERT INTO roles (role, salary, departments)
+INSERT INTO roles (role, salary, department)
 VALUES ("Head of Marketing", 250, "Marketing"),
        ("Head of Engineering", 350, "Engineering"),
        ("Consultant", 150, "Consulting"),
