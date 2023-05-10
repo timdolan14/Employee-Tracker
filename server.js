@@ -122,7 +122,7 @@ function addDepartment() {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({ error: err.message });
+            return;
         } else if (!result.affectedRows) {
             res.json({
                 message: 'Error'
@@ -130,7 +130,7 @@ function addDepartment() {
         } else {
             res.json({
                 message: 'Department added to Database',
-                data: req.body,
+                data: req.body.newDepartment,
                 changes: result.affectedRows
             });
         }
@@ -163,15 +163,12 @@ function addRole() {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({ error: err.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
+            return;
         } else {
             res.json({
                 message: 'Role added to Database',
-                data: req.body,
+                data: [req.body.role,
+                    req.body.salary, req.body.department],
                 changes: result.affectedRows
             });
         }
@@ -209,11 +206,7 @@ function addEmployee() {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({ error: err.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Error'
-            });
+            return;
         } else {
             res.json({
                 message: 'Employee added to Database',
@@ -239,25 +232,20 @@ function addEmployee() {
 //             message: "What would you like to update this to?"
 //         },
 //      ])
-//     //.then
-//     // const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-//     // const params = [req.body.firstame, req.params.lastName,
-//     // req.body.role, req.body.manager];
+//     .then
+//     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
+//     const params = [req.body.name, req.params.updatedRole]
 
-//     // db.query(sql, params, (err, result) => {
-//     //     if (err) {
-//     //         res.status(400).json({ error: err.message });
-//     //     } else if (!result.affectedRows) {
-//     //         res.json({
-//     //             message: 'Error'
-//     //         });
-//     //     } else {
-//     //         res.json({
-//     //             message: 'Employee added to Database',
-//     //             data: [req.body.name, req.params.updatedRole]
-//     //             changes: result.affectedRows
-//     //         });
-//     //     }
-//     // });
+//     db.query(sql, params, (err, result) => {
+//         if (err) {
+//             return;
+//         } else {
+//             res.json({
+//                 message: 'Employee added to Database',
+//                 data: [req.body.name, req.params.updatedRole],
+//                 changes: result.affectedRows
+//             });
+//         }
+//     });
 //     questions();
 // };
