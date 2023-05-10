@@ -19,7 +19,7 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_db database.`)
 );
 
-function questions () {
+function questions() {
     inquirer.prompt({
         name: "Where would you like to go?",
         type: 'list',
@@ -78,7 +78,7 @@ function viewAllDepartments() {
     questions();
 }
 
-function viewAllRoles () {
+function viewAllRoles() {
     console.log("test")
     const sql = "SELECT * FROM roles;";
     db.query(sql, (err, rows) => {
@@ -94,7 +94,7 @@ function viewAllRoles () {
     questions();
 }
 
-function viewAllEmployees () {
+function viewAllEmployees() {
     console.log("test")
     const sql = "SELECT * FROM employees;";
     db.query(sql, (err, rows) => {
@@ -112,13 +112,13 @@ function viewAllEmployees () {
 
 function addDepartment() {
     inquirer.prompt({
-        name: "newDepartment",
+        name: "name",
         type: 'input',
         message: "Add New Department?"
     }).then
 
-    const sql = `INSERT INTO departments (newDepartment) VALUES ?`;
-    const params = [req.body.newDepartment];
+    const sql = `INSERT INTO departments (name) VALUES ?`;
+    const params = [req.body.name];
 
     db.query(sql, params, (err, result) => {
         if (err) {
@@ -130,7 +130,7 @@ function addDepartment() {
         } else {
             res.json({
                 message: 'Department added to Database',
-                data: req.body.newDepartment,
+                data: req.body.name,
                 changes: result.affectedRows
             });
         }
@@ -141,9 +141,9 @@ function addDepartment() {
 function addRole() {
     inquirer.prompt([
         {
-            name: "role",
+            name: "title",
             type: 'input',
-            message: "Role?"
+            message: "Title?"
         },
         {
             name: "salary",
@@ -151,15 +151,16 @@ function addRole() {
             message: "Salary?"
         },
         {
-            name: "department",
-            type: 'input',
+            name: "department_id",
+            type: 'list',
+            choices: ['Engineering', 'Marketing', 'Consulting', 'Finance', 'Science'],
             message: "Department?"
         },
     ])
-    .then
-    const sql = `INSERT INTO roles (role, salary, departments) VALUES ?`;
-    const params = [req.body.role,
-    req.body.salary, req.body.department];
+        .then
+    const sql = `INSERT INTO roles (title, salary, department_id) VALUES ?`;
+    const params = [req.body.title,
+    req.body.salary, req.body.department_id];
 
     db.query(sql, params, (err, result) => {
         if (err) {
@@ -167,8 +168,8 @@ function addRole() {
         } else {
             res.json({
                 message: 'Role added to Database',
-                data: [req.body.role,
-                    req.body.salary, req.body.department],
+                data: [req.body.title,
+                req.body.salary, req.body.department_id],
                 changes: result.affectedRows
             });
         }
@@ -189,17 +190,19 @@ function addEmployee() {
             message: "Last Name?"
         },
         {
-            name: "role",
-            type: 'input',
+            name: "role_id",
+            type: 'list',
+            choices: ['Head of Marketing', 'Head of Engineering', 'Consultant',
+                'Head of Finance', 'Lead Scientist'],
             message: "Role?"
         },
         {
-            name: "manager",
+            name: "manager_id",
             type: 'input',
             message: "Manager?"
         },
-     ])
-    .then
+    ])
+        .then
     const sql = `INSERT INTO roles (first_name, last_name, role, manager) VALUES ?`;
     const params = [req.body.firstame, req.params.lastName,
     req.body.role, req.body.manager];

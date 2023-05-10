@@ -5,20 +5,20 @@ USE employee_db;
 
 CREATE TABLE departments (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    newDepartment VARCHAR(255)
+    name VARCHAR(30)
 );
 
 CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    role VARCHAR(255),
-    salary INT NOT NULL,
-    department VARCHAR(255)
+    title VARCHAR(30),
+    salary decimal,
+    department_id INT
 );
 
 CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    role VARCHAR(255),
-    manager VARCHAR(255)
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    role_id INT,
+    manager_id INT
 );
