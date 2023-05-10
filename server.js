@@ -64,7 +64,7 @@ questions();
 
 function viewAllDepartments() {
     console.log("test")
-    const sql = "SELECT department.id, department.newDepartment FROM department;";
+    const sql = "SELECT department.id, department.name FROM department;";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
@@ -73,14 +73,14 @@ function viewAllDepartments() {
             message: 'success',
             data: rows
         })
-        console.log(data)
+        console.log(sql)
     })
     questions();
 }
 
 function viewAllRoles() {
     console.log("test")
-    const sql = "SELECT * FROM roles;";
+    const sql = "SELECT title, salary, department_id FROM roles";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
@@ -95,7 +95,7 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
-    console.log("test")
+    console.log(sql)
     const sql = "SELECT * FROM employees;";
     db.query(sql, (err, rows) => {
         if (err) {
@@ -105,7 +105,7 @@ function viewAllEmployees() {
             message: 'success',
             data: rows
         })
-        console.log(data)
+        console.log(sql)
     })
     questions();
 }
