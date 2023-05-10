@@ -31,23 +31,26 @@ function questions () {
             'Add an employee',
             'Update an employee role',
         ]
-    }).then((choices) => {
-        if (choices === 'View all departments') {
+    }).then((res) => {
+        console.log(res)
+        let choices = Object.values(res)
+        console.log(choices)
+        if (choices[0] === 'View all departments') {
             viewAllDepartments();
         }
-        if (choices === 'View all roles') {
+        if (choices[0] === 'View all roles') {
             viewAllRoles();
         }
-        if (choices === 'View all employees') {
+        if (choices[0] === 'View all employees') {
             viewAllEmployees();
         }
-        if (choices === 'Add a department') {
+        if (choices[0] === 'Add a department') {
             addDepartment();
         }
-        if (choices === 'Add a role') {
+        if (choices[0] === 'Add a role') {
             addRole();
         }
-        if (choices === 'Add an employee') {
+        if (choices[0] === 'Add an employee') {
             addEmployee();
         }
         // if (choices === 'Update an employee role') {
@@ -59,51 +62,53 @@ function questions () {
 questions();
 
 
-
 function viewAllDepartments() {
-    const sql = `SELECT * from departments`;
+    console.log("test")
+    const sql = "SELECT department.id, department.newDepartment FROM department;";
     db.query(sql, (err, rows) => {
         if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        });
-    });
-    questions();
-}
-
-function viewAllRoles() {
-    const sql = `SELECT * from roles`;
-    db.query(sql, (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({
-            message: 'success',
-            data: rows
-        });
-    });
-    questions();
-}
-
-function viewAllEmployees() {
-    const sql = `SELECT * from employees`;
-    db.query(sql, (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
             return;
         }
         res.json({
             message: 'success',
             data: rows
         })
+        console.log(data)
     })
     questions();
-};
+}
+
+function viewAllRoles () {
+    console.log("test")
+    const sql = "SELECT * FROM roles;";
+    db.query(sql, (err, rows) => {
+        if (err) {
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        })
+        console.log(data)
+    })
+    questions();
+}
+
+function viewAllEmployees () {
+    console.log("test")
+    const sql = "SELECT * FROM employees;";
+    db.query(sql, (err, rows) => {
+        if (err) {
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        })
+        console.log(data)
+    })
+    questions();
+}
 
 function addDepartment() {
     inquirer.prompt({
