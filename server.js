@@ -66,7 +66,7 @@ questions();
 
 function viewAllDepartments() {
     console.log("test")
-    const sql = "SELECT department.id, department.name FROM department;";
+    const sql = "SELECT department.id, department.name FROM departments";
     db.query(sql, function (err, rows) {
         if (err) {
             return;
