@@ -57,8 +57,6 @@ function questions() {
             case 'Update a employee role':
                 updateEmployeeRole();
                 break;
-            default:
-                break;
         }
     })
 };
@@ -79,7 +77,6 @@ function viewAllDepartments() {
         })
         console.log(sql)
     })
-    questions();
 }
 
 function viewAllRoles() {
@@ -93,13 +90,13 @@ function viewAllRoles() {
             message: 'success',
             data: rows
         })
-        console.log(sql)
+        console.log(data)
     })
     questions();
 }
 
 function viewAllEmployees() {
-    console.log(sql)
+    console.log("test")
     const sql = "SELECT * FROM employees;";
     db.query(sql, (err, rows) => {
         if (err) {
@@ -109,7 +106,7 @@ function viewAllEmployees() {
             message: 'success',
             data: rows
         })
-        console.log(sql)
+        console.log(data)
     })
     questions();
 }
