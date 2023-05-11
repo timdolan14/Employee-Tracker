@@ -56,8 +56,8 @@ function questions() {
             case 'Update an employee role':
                 updateEmployeeRole();
                 break;
-            default: 
-            quit();
+            default:
+                quit();
         }
     })
 };
@@ -229,42 +229,63 @@ function addEmployee() {
 
 
 function updateEmployeeRole() {
-    inquirer.prompt([
-        {
-            name: "first_name",
-            type: 'input',
-            message: "First name of Employee?"
-        },
-        {
-            name: "last_name",
-            type: 'input',
-            message: "Last name of Employee?"
-        },
-        {
-            name: "role_id",
-            type: 'input',
-            message: "What would you like to update this to?"
-        },
-    ])
-        .then
-    const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-    const params = [data.first_name, data.last_name, data.role_id]
-    console.log(data)
-    db.query(sql, params, (err, result) => {
+    const sql = "SELECT * from roles";
+    db.query(sql, function (err, rows) {
         if (err) {
             throw err;
-        } else {
-            console.table({
-                message: 'Employee updated in Database',
-                data: [data.name, data.updatedRole],
-                changes: result.affectedRows
-            });
         }
-    });
-    questions();
-};
+        var rolesList = rows.map((roles) => {
+            return {
+                name: roles.title,
+                value: roles.id
+            }
+        });
+        const sql2 = "SELECT * from employees";
+        db.query(sql2, function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            var emList = rows.map((employees) => {
+                return {
+                    name: employees.first_name + " " + employees.last_name,
+                    value: employees.id
+                }
+            });
+            inquirer.prompt([
+                {
+                    name: "first_name",
+                    type: 'list',
+                    choices: emList,
+                    message: "First Name?"
+                },
+                {
+                    name: "role_id",
+                    type: 'list',
+                    choices: rolesList,
+                    message: "Role?"
+                },])
+                .then((data) => {
+                    const { first_name, last_name, role_id } = data;
 
-function quit () {
-    console.log("End");
-    process.exit();
-};
+                    const sql = `UPDATE employees SET role_id = ? WHERE first_name = ? AND last_name = ?`;
+                    const params = [role_id, first_name, last_name];
+
+                    db.query(sql, params, (err, result) => {
+                        db.query(sql, params, (err, result) => {
+                            if (err) {
+                                throw err;
+                            } else {
+                                console.table("Employee Updated!");
+                                questions();
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    };
+
+    function quit () {
+        console.log("End!")
+        process.exit();
+    };
