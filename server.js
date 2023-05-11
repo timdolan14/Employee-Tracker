@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+require('console.table');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -32,9 +33,9 @@ function questions() {
             'Update an employee role',
         ]
     }).then((res) => {
-        console.log(res)
+        // console.log(res)
         let choices = Object.values(res)
-        console.log(choices)
+        // console.log(choices)
         switch (choices[0]) {
             case 'View all departments':
                 viewAllDepartments();;
@@ -65,48 +66,39 @@ questions();
 
 
 function viewAllDepartments() {
-    console.log("test")
-    const sql = "SELECT departments.id, departments.name FROM departments";
+    // console.log("test")
+    const sql = "SELECT * from departments";
     db.query(sql, function (err, rows) {
         if (err) {
             return;
         }
-        console.log({
-            message: 'success',
-            data: rows
-        })
+        console.table(rows)
+        questions();
     })
-    questions();
 }
 
 function viewAllRoles(res) {
     console.log("test")
-    const sql = "SELECT title, salary, department_id FROM roles";
+    const sql = "SELECT * from roles";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
         }
-        console.log({
-            message: 'success',
-            data: rows
-        });
+        console.table(rows)
+        questions();
     });
-    questions();
 }
 
 function viewAllEmployees() {
     console.log("test")
-    const sql = "SELECT * FROM employees;";
+    const sql = "SELECT * FROM employees";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
         }
-        console.log({
-            message: 'success',
-            data: rows
-        })
+        console.table(rows)
+        questions();
     })
-    questions();
 }
 
 function addDepartment() {
@@ -114,7 +106,7 @@ function addDepartment() {
         name: "name",
         type: 'input',
         message: "Add New Department?"
-    }).then ((data) => {
+    }).then((data) => {
         const sql = `INSERT INTO departments (name) VALUES ?`;
         const params = [data.name];
         db.query(sql, params, (err, result) => {
@@ -123,7 +115,7 @@ function addDepartment() {
             } else if (!result.affectedRows) {
                 console.log(error);
             } else {
-                console.log({
+                console.table({
                     message: 'Department added to Database',
                     data: data.name,
                     changes: result.affectedRows
@@ -155,15 +147,15 @@ function addRole() {
     ]).then((data) => {
         const sql = `INSERT INTO roles (title, salary, department_id) VALUES ?`;
         const params = [data.title,
-            data.salary, data.department_id]
+        data.salary, data.department_id]
         db.query(sql, params, (err, result) => {
             if (err) {
                 return;
             } else {
-                console.log({
+                console.table({
                     message: 'Role added to Database',
-                    data:[data.title,
-                        data.salary, data.department_id]
+                    data: [data.title,
+                    data.salary, data.department_id]
                 });
             }
         })
@@ -196,19 +188,19 @@ function addEmployee() {
             type: 'input',
             message: "Manager?"
         },
-    ]) .then((data) => {
+    ]).then((data) => {
         const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ?`;
         const params = [data.firstname, data.lastname,
-            data.role_id, data.manager_id]
-    
+        data.role_id, data.manager_id]
+
         db.query(sql, params, (err, result) => {
             if (err) {
                 return;
             } else {
-                console.log({
+                console.table({
                     message: 'Employee added to Database',
                     data: [data.firstname, data.lastname,
-                data.role_id, data.manager_id],
+                    data.role_id, data.manager_id],
                     changes: result.affectedRows
                 });
             }
@@ -230,8 +222,8 @@ function updateEmployeeRole() {
             type: 'input',
             message: "What would you like to update this to?"
         },
-     ])
-    .then
+    ])
+        .then
     const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
     const params = [data.name, data.updatedRole]
 
@@ -239,8 +231,8 @@ function updateEmployeeRole() {
         if (err) {
             return;
         } else {
-            console.log({
-                message: 'Employee added to Database',
+            console.table({
+                message: 'Employee updated in Database',
                 data: [data.name, data.updatedRole],
                 changes: result.affectedRows
             });
