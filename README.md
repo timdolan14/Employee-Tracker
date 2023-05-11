@@ -6,10 +6,11 @@ https://github.com/timdolan14/Employee-Tracker
 
 ## Video Link
 
-
+https://drive.google.com/file/d/16RA5nAj1ZxI599q69guc5vt2Ojv2lHCB/view
 
 ## Description
 
+![SC](./photos/SC.png)
 
 The Employee Tracker is a comprehensive database management system designed to efficiently track and manage employee information within an organization. Built using SQL (Structured Query Language), this system allows businesses to store, retrieve, and manipulate employee data with ease.
 

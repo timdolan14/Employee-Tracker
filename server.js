@@ -88,7 +88,7 @@ function viewAllRoles(res) {
 }
 
 function viewAllEmployees() {
-    const sql = "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, departments.name AS department FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id";
+    const sql = 'SELECT e.id, e.first_name, e.last_name, m.first_name AS manager_first_name, m.last_name AS manager_last_name, r.title, r.salary, d.name AS department FROM employees e LEFT JOIN roles r ON e.role_id = r.id LEFT JOIN departments d ON r.department_id = d.id LEFT JOIN employees m ON e.manager_id = m.id';
     db.query(sql, (err, rows) => {
         if (err) {
             return;
@@ -102,7 +102,7 @@ function addDepartment() {
     inquirer.prompt({
         name: "name",
         type: 'input',
-        message: "Add New Department?"
+        message: "Name of new department?"
     }).then((data) => {
         const sql = `INSERT INTO departments (name) VALUES (?)`;
         const params = [data.name];
@@ -147,7 +147,6 @@ function addRole() {
                 message: "Department?"
             },
         ]).then((data) => {
-            console.log(data);
             const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`;
             const params = [data.title,
             data.salary, data.department_id]
