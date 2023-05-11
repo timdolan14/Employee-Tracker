@@ -88,7 +88,7 @@ function viewAllRoles(res) {
 }
 
 function viewAllEmployees() {
-    const sql = "SELECT employees.id, employees.first_name AS 'First Name', employees.last_name as 'Last Name', employees.manager_id, roles.title, roles.salary, departments.name AS department FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id";
+    const sql = "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, departments.name AS department FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id";
     db.query(sql, (err, rows) => {
         if (err) {
             return;
